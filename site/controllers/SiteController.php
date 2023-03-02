@@ -7,8 +7,10 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
+
 use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\Sdacha;
 
 class SiteController extends Controller
 {
@@ -107,5 +109,26 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    /**
+     * Вычисление распределения по монатам суммы сдачи
+     *
+     * @param      int  $cost   Сумма подлежащая распределению ..
+     */
+
+    public function actionSdacha($cost = null)
+    {
+        $sd = new Sdacha(['cost' => $cost]);
+        if ($this->request->isPost) {
+            $post = $this->request->post();
+            if (isset($post['reset'])) {
+                return $this->redirect(['']);
+            }
+            if ($sd->applyPost($post)) {
+                return $this->redirect(['', 'cost' => $sd->cost]);
+            }
+        }
+        return $this->render('sdacha', ['model' => $sd]);
     }
 }
