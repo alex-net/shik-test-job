@@ -82,3 +82,8 @@ a.desc:after {
 .nav > li > form > button.logout:focus {
     outline: none;
 }
+
+
+.page-orders {display: flex;}
+.page-orders .orders-list {margin-left: 1em; flex-grow: 1;}
+.page-orders .order-filter li {list-style: none outside none;}
